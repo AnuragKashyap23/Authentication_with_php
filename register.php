@@ -15,10 +15,11 @@
 	<div>
 	<form name="reg" action="register.php" method="POST">
 	<h1 class="mt-5">Register here</h1>
+    <input name="fullname" class="form-control mb-3" type="text"  placeholder="Fullname" required>
 	<input name="username" class="form-control my-3" type="text"  placeholder="Username" required>
 	<input name="password" class="form-control mb-3" type="password"  placeholder="Password" required>
 	<input name="mobile" class="form-control mb-3" type="tel" placeholder="Mobile" required>
-	<input name="gender" class="form-control mb-3" type="text"  placeholder="Gender" required>
+	
 	<div>
 	<button class="btn btn-success" name="bsave" type="submit">Register</button>
 	</div>
@@ -29,3 +30,28 @@
 </form>
 </body>
 </html>
+
+<?php
+if (isset($_REQUEST["bsave"])){
+    $user=$_REQUEST["username"];
+    $pass=$_REQUEST["password"];
+    $mob=$_REQUEST["mobile"];
+    $fname=$_REQUEST["fullname"];
+
+    $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
+
+    include('connection.php');
+
+    $qry="INSERT INTO register(fullname, username, password, mobile) 
+    VALUES('$fname','$user','$hashed_password','$mob')";
+
+    if (mysqli_query($con,$qry)){
+        echo "Succefully Registered";
+    }
+    else{
+        echo "Error";
+    }
+
+}
+
+?>
